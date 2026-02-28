@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>할일</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <p class="header-date" id="header-date"></p>
+        <h1 class="header-title">나의 할일</h1>
+      </div>
+      <button class="add-fab" id="open-modal">＋</button>
+    </div>
+
+    <!-- 탭: 전체 / 오늘 -->
+    <div class="tab-group">
+      <button class="tab active" data-tab="all">전체</button>
+      <button class="tab" data-tab="today">오늘</button>
+    </div>
+  </header>
+
+  <!-- 할일 목록 -->
+  <main class="todo-list" id="todo-list">
+    <div class="empty-state" id="empty-state">
+      <p>🎉</p>
+      <p>할일이 없어요!</p>
+    </div>
+    <div id="todo-list-cards"></div>
+  </main>
+
+  <!-- ───── 스케줄 차트 섹션 ───── -->
+  <section class="schedule-section" id="nav-schedule">
+    <div class="schedule-header">
+      <h2 class="schedule-title">📅 전체 일정</h2>
+      <div class="month-nav">
+        <button id="prev-month">‹</button>
+        <span id="current-month-label"></span>
+        <button id="next-month">›</button>
+      </div>
+    </div>
+    <div class="schedule-chart" id="schedule-chart"></div>
+  </section>
+
+  <!-- 할일 추가 모달 -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-handle"></div>
+      <h2 class="modal-title" id="modal-title">새 할일</h2>
+      <div class="form-group">
+        <label>할일</label>
+        <div class="input-wrapper">
+          <input type="text" id="todo-input" placeholder="무엇을 해야 하나요?" autocomplete="off" />
+          <ul class="autocomplete-list hidden" id="autocomplete-list"></ul>
+        </div>
+      </div>
+      <div class="template-suggestion hidden" id="template-suggestion">
+        <span>💡</span>
+        <span id="template-name"></span>
+        <button id="apply-template">적용</button>
+      </div>
+      <div class="form-row">
+        <div class="form-group half">
+          <label>카테고리</label>
+          <select id="category-select">
+            <option value="">없음</option>
+            <option value="업무">💼 업무</option>
+            <option value="건강">🏃 건강</option>
+            <option value="학습">📚 학습</option>
+            <option value="생활">🏠 생활</option>
+          </select>
+        </div>
+        <div class="form-group half">
+          <label>우선순위</label>
+          <select id="priority-select">
+            <option value="medium">보통</option>
+            <option value="high">높음 🔴</option>
+            <option value="low">낮음 🟢</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half">
+          <label>시작일</label>
+          <input type="date" id="start-date-input" />
+        </div>
+        <div class="form-group half">
+          <label>마감일</label>
+          <input type="date" id="deadline-input" />
+        </div>
+      </div>
+      <div class="subtask-suggestion hidden" id="subtask-suggestion">
+        <label>📌 추천 세부 작업</label>
+        <div class="subtask-chips" id="subtask-chips"></div>
+      </div>
+      <div class="form-group">
+        <label>메모</label>
+        <textarea id="memo-input" placeholder="추가 메모를 입력하세요" rows="2"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="close-modal">취소</button>
+        <button class="btn-add" id="add-btn">추가하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Realtime Database -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      push,
+      onValue,
+      remove,
+      update,
+      goOnline
+    } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDe6wQl7i3kwD0jPMPUP97KGfQuiPh5u8I",
+      authDomain: "aif-todo-backend.firebaseapp.com",
+      databaseURL: "https://aif-todo-backend-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "aif-todo-backend",
+      storageBucket: "aif-todo-backend.firebasestorage.app",
+      messagingSenderId: "968012722020",
+      appId: "1:968012722020:web:316e9d0cb3bcbe4d35d471",
+      measurementId: "G-S85KYGSHDK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    goOnline(db);
+
+    window._db = db;
+    window._ref = ref;
+    window._set = set;
+    window._push = push;
+    window._onValue = onValue;
+    window._remove = remove;
+    window._update = update;
+
+    const script = document.createElement("script");
+    script.src = "js/suggest.js";
+    document.body.appendChild(script);
+  </script>
+
+</body>
+</html>

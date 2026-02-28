@@ -1,0 +1,28 @@
+{
+  "templates": [
+    {
+      "id": "weekly_report",
+      "trigger": "보고서",
+      "title": "주간 업무 보고서 작성",
+      "category": "업무",
+      "priority": "high",
+      "subtasks": ["데이터 수집", "초안 작성", "팀장 검토 요청", "최종 제출"]
+    },
+    {
+      "id": "exercise",
+      "trigger": "운동",
+      "title": "오늘의 운동 루틴",
+      "category": "건강",
+      "priority": "medium",
+      "subtasks": ["스트레칭 10분", "유산소 30분", "근력 운동 20분"]
+    },
+    {
+      "id": "study",
+      "trigger": "공부",
+      "title": "오늘의 학습 계획",
+      "category": "학습",
+      "priority": "medium",
+      "subtasks": ["목표 설정", "집중 학습 1시간", "복습 30분"]
+    }
+  ]
+}
