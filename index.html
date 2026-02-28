@@ -8,6 +8,15 @@
   <link rel="shortcut icon" type="image/png" href="/favicon.png" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/motion.css" />
+  <script>
+    (function () {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches))
+        document.documentElement.setAttribute("data-theme", "dark");
+      else
+        document.documentElement.setAttribute("data-theme", "light");
+    })();
+  </script>
 </head>
 <body>
 
@@ -18,7 +27,10 @@
         <p class="header-date" id="header-date"></p>
         <h1 class="header-title">나의 할일</h1>
       </div>
-      <button class="add-fab" id="open-modal">＋</button>
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle" type="button" title="다크/라이트 모드 전환" aria-label="테마 전환"></button>
+        <button class="add-fab" id="open-modal">＋</button>
+      </div>
     </div>
 
     <!-- 탭: 오늘 / 내일 / 전체일정 / 지난일정 -->

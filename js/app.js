@@ -17,6 +17,26 @@ document.getElementById("header-date").textContent = today.toLocaleDateString("k
   weekday: "long"
 });
 
+function getTheme() {
+  return document.documentElement.getAttribute("data-theme") || "light";
+}
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+  var btn = document.getElementById("theme-toggle");
+  if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+function initThemeToggle() {
+  var btn = document.getElementById("theme-toggle");
+  if (!btn) return;
+  btn.textContent = getTheme() === "dark" ? "☀️" : "🌙";
+  btn.addEventListener("click", function () {
+    var next = getTheme() === "dark" ? "light" : "dark";
+    setTheme(next);
+  });
+}
+initThemeToggle();
+
 let currentTab = "today";
 let selectedSubtasks = [];
 let currentTemplate = null;
