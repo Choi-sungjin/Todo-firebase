@@ -2,6 +2,14 @@
 
 const today = new Date();
 
+/** 로컬 날짜 기준 YYYY-MM-DD (오늘 시간 기준, 타임존 반영) */
+function getLocalDateStr(d) {
+  var y = d.getFullYear();
+  var m = String(d.getMonth() + 1).padStart(2, "0");
+  var day = String(d.getDate()).padStart(2, "0");
+  return y + "-" + m + "-" + day;
+}
+
 document.getElementById("header-date").textContent = today.toLocaleDateString("ko-KR", {
   year: "numeric",
   month: "long",
@@ -75,7 +83,7 @@ function openModal() {
   document.getElementById("modal-title").textContent = "새 할일";
   document.getElementById("add-btn").textContent = "추가하기";
   document.getElementById("modal-overlay").classList.remove("hidden");
-  const todayStr = today.toISOString().split("T")[0];
+  const todayStr = getLocalDateStr(today);
   const startEl = document.getElementById("start-date-input");
   const deadlineEl = document.getElementById("deadline-input");
   if (startEl) startEl.value = todayStr;
@@ -252,7 +260,7 @@ function renderTodos(todosObj) {
   var empty = document.getElementById("empty-state");
   var todos = Array.isArray(todosObj) ? todosObj : Object.values(todosObj || {});
 
-  var todayStr = today.toISOString().split("T")[0];
+  var todayStr = getLocalDateStr(today);
   if (currentTab === "today") {
     todos = todos.filter(function (t) {
       return t.deadline === todayStr || t.startDate === todayStr;
@@ -267,7 +275,7 @@ function renderTodos(todosObj) {
   } else if (currentTab === "week") {
     var weekEnd = new Date(today);
     weekEnd.setDate(today.getDate() + 6);
-    var weekEndStr = weekEnd.toISOString().split("T")[0];
+    var weekEndStr = getLocalDateStr(weekEnd);
     todos = todos.filter(function (t) {
       var d = t.deadline || t.startDate;
       return d >= todayStr && d <= weekEndStr;
