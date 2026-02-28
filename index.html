@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="shortcut icon" type="image/png" href="/favicon.png" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/motion.css" />
 </head>
 <body>
 
@@ -20,11 +21,12 @@
       <button class="add-fab" id="open-modal">＋</button>
     </div>
 
-    <!-- 탭: 전체 / 지난일정 / 오늘 -->
+    <!-- 탭: 오늘 / 내일 / 전체일정 / 지난일정 -->
     <div class="tab-group">
-      <button class="tab active" data-tab="all">전체</button>
+      <button class="tab active" data-tab="today">오늘</button>
+      <button class="tab" data-tab="tomorrow">내일</button>
+      <button class="tab" data-tab="all">전체일정</button>
       <button class="tab" data-tab="past">지난일정</button>
-      <button class="tab" data-tab="today">오늘</button>
     </div>
   </header>
 

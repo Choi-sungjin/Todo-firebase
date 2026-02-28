@@ -17,7 +17,7 @@ document.getElementById("header-date").textContent = today.toLocaleDateString("k
   weekday: "long"
 });
 
-let currentTab = "all";
+let currentTab = "today";
 let selectedSubtasks = [];
 let currentTemplate = null;
 let editingTodoId = null;
@@ -265,13 +265,20 @@ function renderTodos(todosObj) {
     todos = todos.filter(function (t) {
       return t.deadline === todayStr || t.startDate === todayStr;
     });
+  } else if (currentTab === "tomorrow") {
+    var tomorrowDate = new Date(today);
+    tomorrowDate.setDate(today.getDate() + 1);
+    var tomorrowStr = getLocalDateStr(tomorrowDate);
+    todos = todos.filter(function (t) {
+      return t.deadline === tomorrowStr || t.startDate === tomorrowStr;
+    });
   } else if (currentTab === "past") {
     todos = todos.filter(function (t) {
       var d = t.deadline || t.startDate;
       return d && d < todayStr;
     });
   } else if (currentTab === "all") {
-    /* 전체: 필터 없음 */
+    /* 전체일정: 필터 없음 */
   } else if (currentTab === "week") {
     var weekEnd = new Date(today);
     weekEnd.setDate(today.getDate() + 6);
