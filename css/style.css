@@ -900,7 +900,20 @@ body {
   position: relative;
 }
 
-input[type="text"],
+#todo-input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: background 0.15s;
+  box-sizing: border-box;
+}
+
 .form-row-all-day {
   align-items: flex-end;
 }
@@ -1326,6 +1339,34 @@ textarea {
 [data-theme="dark"] .modal-overlay {
   background: rgba(0, 0, 0, 0.65);
 }
+
+[data-theme="dark"] input[type="date"],
+[data-theme="dark"] input[type="time"] {
+  background: #334155;
+  color: #f1f5f9;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color-scheme: dark;
+}
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.8;
+}
+[data-theme="dark"] #todo-input {
+  background: #334155;
+  color: #f1f5f9;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+[data-theme="dark"] #todo-input::placeholder {
+  color: #94a3b8;
+}
+[data-theme="dark"] input[type="date"]:focus,
+[data-theme="dark"] input[type="time"]:focus,
+[data-theme="dark"] #todo-input:focus {
+  background: #475569;
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
 [data-theme="dark"] .chart-tooltip {
   background: linear-gradient(145deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.99) 100%);
   border: 1px solid rgba(148, 163, 184, 0.2);

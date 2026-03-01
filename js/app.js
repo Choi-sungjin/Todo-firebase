@@ -208,7 +208,7 @@ function openModalForEdit(id) {
   var isAllDay = todo.allDay === true || (todo.allDay !== false && !todo.startTime && !todo.endTime);
   if (allDayEl) allDayEl.checked = isAllDay;
   if (startTimeEl) {
-    startTimeEl.value = todo.startTime || "09:00";
+    startTimeEl.value = todo.startTime || "00:00";
     startTimeEl.disabled = isAllDay;
   }
   if (endTimeEl) {
@@ -245,7 +245,7 @@ function resetForm() {
   var endTimeEl = document.getElementById("end-time-input");
   if (allDayEl) {
     allDayEl.checked = true;
-    if (startTimeEl) { startTimeEl.value = "09:00"; startTimeEl.disabled = true; }
+    if (startTimeEl) { startTimeEl.value = "00:00"; startTimeEl.disabled = true; }
     if (endTimeEl) { endTimeEl.value = "18:00"; endTimeEl.disabled = true; }
   }
   var autocompleteList = document.getElementById("autocomplete-list");
@@ -350,7 +350,7 @@ document.getElementById("apply-template").addEventListener("click", function () 
       startTimeEl.value = "00:00";
       endTimeEl.value = "23:59";
     } else if (startTimeEl.value === "00:00" && endTimeEl.value === "23:59") {
-      startTimeEl.value = "09:00";
+      startTimeEl.value = "00:00";
       endTimeEl.value = "18:00";
     }
   });
