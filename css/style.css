@@ -1450,6 +1450,12 @@ textarea {
   border-color: var(--primary);
 }
 
+[data-theme="dark"] select,
+[data-theme="dark"] select option {
+  background: #1a1a1a;
+  color: #f5f7fb;
+}
+
 [data-theme="dark"] .chart-tooltip {
   background: var(--card);
   color: var(--text-primary);
@@ -1799,6 +1805,13 @@ input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: var(--picker-icon-filter);
   opacity: 0.9;
+  cursor: pointer;
+}
+
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.4);
+  opacity: 0.95;
   cursor: pointer;
 }
 
