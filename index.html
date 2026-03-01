@@ -42,6 +42,10 @@
 
   <!-- 할일 목록 -->
   <main class="todo-list" id="todo-list">
+    <div class="date-filter-bar hidden" id="date-filter-bar">
+      <span class="date-filter-text" id="date-filter-text"></span>
+      <button type="button" class="date-filter-clear" id="date-filter-clear">전체 보기</button>
+    </div>
     <div class="empty-state" id="empty-state">
       <p>🎉</p>
       <p>할일이 없어요!</p>
@@ -121,6 +125,18 @@
         <button class="btn-cancel" id="close-modal">취소</button>
         <button class="btn-add" id="add-btn">추가하기</button>
       </div>
+    </div>
+  </div>
+
+  <!-- 날짜 클릭 시: 할일 있는 날 선택 팝업 (기존 할일보기 / 할일 등록하기) -->
+  <div class="date-choice-overlay hidden" id="date-choice-overlay">
+    <div class="date-choice-popup">
+      <p class="date-choice-title" id="date-choice-title"></p>
+      <div class="date-choice-buttons">
+        <button type="button" class="date-choice-btn date-choice-btn-view" id="date-choice-view">기존 입력된 할일보기</button>
+        <button type="button" class="date-choice-btn date-choice-btn-add" id="date-choice-add">할일 등록하기</button>
+      </div>
+      <button type="button" class="date-choice-close" id="date-choice-close" aria-label="닫기">✕</button>
     </div>
   </div>
 

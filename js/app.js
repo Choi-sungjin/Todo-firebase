@@ -43,6 +43,7 @@ let currentTemplate = null;
 let editingTodoId = null;
 window.selectedTodoId = null;
 window.expandedTodoId = null;
+window.filterByDate = null;
 
 listenTodos(function (todos) {
   renderTodos(todos);
@@ -118,6 +119,71 @@ function openModalWithDate(dateStr) {
   }, 300);
 }
 window.openModalWithDate = openModalWithDate;
+
+/** 해당 날짜에 시작일/마감일이 있는 할일만 반환 */
+function getTodosForDate(dateStr) {
+  var arr = typeof getTodosArray === "function" ? getTodosArray() : [];
+  return arr.filter(function (t) {
+    return t.deadline === dateStr || t.startDate === dateStr;
+  });
+}
+
+/** YYYY-MM-DD → "YYYY년 M월 D일" */
+function formatDateLabel(dateStr) {
+  if (!dateStr) return "";
+  var parts = dateStr.split("-");
+  if (parts.length !== 3) return dateStr;
+  return parts[0] + "년 " + parseInt(parts[1], 10) + "월 " + parseInt(parts[2], 10) + "일";
+}
+
+var _dateChoiceDateStr = null;
+
+/** 전체일정에서 날짜 클릭: 할일 있으면 선택 팝업, 없으면 바로 새 할일 모달 */
+function onScheduleDateClick(dateStr) {
+  var todosOnDate = getTodosForDate(dateStr);
+  if (todosOnDate.length > 0) {
+    _dateChoiceDateStr = dateStr;
+    document.getElementById("date-choice-title").textContent = formatDateLabel(dateStr) + " 할일";
+    document.getElementById("date-choice-overlay").classList.remove("hidden");
+  } else {
+    openModalWithDate(dateStr);
+  }
+}
+window.onScheduleDateClick = onScheduleDateClick;
+
+function closeDateChoicePopup() {
+  document.getElementById("date-choice-overlay").classList.add("hidden");
+  _dateChoiceDateStr = null;
+}
+
+(function initDateChoicePopup() {
+  document.getElementById("date-choice-view").addEventListener("click", function () {
+    if (_dateChoiceDateStr) {
+      window.filterByDate = _dateChoiceDateStr;
+      closeDateChoicePopup();
+      currentTab = "all";
+      document.querySelectorAll(".tab").forEach(function (t) {
+        t.classList.toggle("active", t.dataset.tab === "all");
+      });
+      renderTodos(getTodosArray());
+      var el = document.getElementById("todo-list");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+  document.getElementById("date-choice-add").addEventListener("click", function () {
+    var dateStr = _dateChoiceDateStr;
+    closeDateChoicePopup();
+    if (dateStr) openModalWithDate(dateStr);
+  });
+  document.getElementById("date-choice-close").addEventListener("click", closeDateChoicePopup);
+  document.getElementById("date-choice-overlay").addEventListener("click", function (e) {
+    if (e.target.id === "date-choice-overlay") closeDateChoicePopup();
+  });
+  document.getElementById("date-filter-clear").addEventListener("click", function () {
+    window.filterByDate = null;
+    renderTodos(getTodosArray());
+  });
+})();
 
 function openModalForEdit(id) {
   var todo = getTodosArray().find(function (t) { return t.id === id; });
@@ -286,6 +352,15 @@ function renderTodos(todosObj) {
   var empty = document.getElementById("empty-state");
   var todos = Array.isArray(todosObj) ? todosObj : Object.values(todosObj || {});
 
+  var filterBar = document.getElementById("date-filter-bar");
+  var filterTextEl = document.getElementById("date-filter-text");
+  if (window.filterByDate) {
+    if (filterBar) filterBar.classList.remove("hidden");
+    if (filterTextEl) filterTextEl.textContent = formatDateLabel(window.filterByDate) + " 할일";
+  } else {
+    if (filterBar) filterBar.classList.add("hidden");
+  }
+
   var todayStr = getLocalDateStr(today);
   if (currentTab === "today") {
     todos = todos.filter(function (t) {
@@ -312,6 +387,11 @@ function renderTodos(todosObj) {
     todos = todos.filter(function (t) {
       var d = t.deadline || t.startDate;
       return d >= todayStr && d <= weekEndStr;
+    });
+  }
+  if (window.filterByDate) {
+    todos = todos.filter(function (t) {
+      return t.deadline === window.filterByDate || t.startDate === window.filterByDate;
     });
   }
 

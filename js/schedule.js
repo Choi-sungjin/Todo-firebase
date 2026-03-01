@@ -17,7 +17,8 @@ function initSchedule() {
       if (!cell || !cell.dataset.date) return;
       e.preventDefault();
       e.stopPropagation();
-      if (typeof window.openModalWithDate === "function") window.openModalWithDate(cell.dataset.date);
+      if (typeof window.onScheduleDateClick === "function") window.onScheduleDateClick(cell.dataset.date);
+      else if (typeof window.openModalWithDate === "function") window.openModalWithDate(cell.dataset.date);
     });
   }
 
