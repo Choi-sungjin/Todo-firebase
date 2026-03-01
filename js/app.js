@@ -21,7 +21,7 @@ function getTheme() {
   return document.documentElement.getAttribute("data-theme") || "light";
 }
 function iconSvg(id, cls) {
-  return '<svg class="' + (cls || "ui-icon") + '" aria-hidden="true"><use href="assets/icons.svg#' + id + '"></use></svg>';
+  return '<svg class="' + (cls || "ui-icon") + '" aria-hidden="true"><use href="#' + id + '"></use></svg>';
 }
 function setTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);

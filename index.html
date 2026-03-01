@@ -20,6 +20,49 @@
   </script>
 </head>
 <body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.3 14.8A8.5 8.5 0 1 1 9.2 3.7 7.2 7.2 0 0 0 20.3 14.8z"/>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4.2"/>
+      <path d="M12 2.5v2.2M12 19.3v2.2M4.7 4.7l1.6 1.6M17.7 17.7l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.7 19.3l1.6-1.6M17.7 6.3l1.6-1.6"/>
+    </symbol>
+    <symbol id="icon-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.2l1.8 4.5L18.3 9l-4.5 1.3L12 14.8l-1.8-4.5L5.7 9l4.5-1.3L12 3.2z"/>
+      <path d="M18.7 14.2l.9 2.3 2.3.9-2.3.9-.9 2.3-.9-2.3-2.3-.9 2.3-.9.9-2.3z"/>
+      <path d="M5.3 14.2l.8 2 .2.1 2 .8-2 .8-.1.2-.8 2-.8-2-.2-.1-2-.8 2-.8.1-.2.8-2z"/>
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="5" width="18" height="16" rx="3"/>
+      <path d="M16 3.5v3M8 3.5v3M3 9.5h18"/>
+      <path d="M8 13h3M13 13h3M8 17h3"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M12 7.8v4.7l3.2 2"/>
+    </symbol>
+    <symbol id="icon-subtask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="4" width="6" height="6" rx="1.4"/>
+      <rect x="14" y="4" width="6" height="6" rx="1.4"/>
+      <rect x="4" y="14" width="6" height="6" rx="1.4"/>
+      <path d="M14 17h6M17 14v6"/>
+    </symbol>
+    <symbol id="icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 20l4.2-.8L19 8.4a1.8 1.8 0 0 0 0-2.6l-.8-.8a1.8 1.8 0 0 0-2.6 0L4.8 15.8 4 20z"/>
+      <path d="M13.8 6.2l4 4"/>
+    </symbol>
+    <symbol id="icon-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.5 7h15"/>
+      <path d="M9.2 3.8h5.6L16 7H8l1.2-3.2z"/>
+      <rect x="6.5" y="7" width="11" height="13" rx="1.8"/>
+      <path d="M10 10.5v6M14 10.5v6"/>
+    </symbol>
+    <symbol id="icon-empty" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.5 11.5l7.5-8 7.5 8v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7z"/>
+      <path d="M9 13.5h6M9 17h4"/>
+    </symbol>
+  </svg>
 
   <!-- 헤더 -->
   <header class="header">
@@ -49,7 +92,7 @@
     </div>
     <div class="empty-state" id="empty-state">
       <p class="empty-state-icon-wrap">
-        <svg class="ui-icon empty-state-icon" aria-hidden="true"><use href="assets/icons.svg#icon-empty"></use></svg>
+        <svg class="ui-icon empty-state-icon" aria-hidden="true"><use href="#icon-empty"></use></svg>
       </p>
       <p>할일이 없어요!</p>
     </div>
@@ -59,7 +102,7 @@
   <!-- ───── 스케줄 차트 섹션 ───── -->
   <section class="schedule-section" id="nav-schedule">
     <div class="schedule-header">
-      <h2 class="schedule-title"><svg class="ui-icon icon-inline" aria-hidden="true"><use href="assets/icons.svg#icon-calendar"></use></svg> 전체 일정</h2>
+      <h2 class="schedule-title"><svg class="ui-icon icon-inline" aria-hidden="true"><use href="#icon-calendar"></use></svg> 전체 일정</h2>
       <div class="month-nav">
         <button id="prev-month">‹</button>
         <span id="current-month-label"></span>
@@ -82,7 +125,7 @@
         </div>
       </div>
       <div class="template-suggestion hidden" id="template-suggestion">
-        <span><svg class="ui-icon icon-inline" aria-hidden="true"><use href="assets/icons.svg#icon-spark"></use></svg></span>
+        <span><svg class="ui-icon icon-inline" aria-hidden="true"><use href="#icon-spark"></use></svg></span>
         <span id="template-name"></span>
         <button id="apply-template">적용</button>
       </div>
@@ -108,11 +151,11 @@
       </div>
       <div class="form-row">
         <div class="form-group half">
-          <label>시작일</label>
+          <label><svg class="ui-icon icon-inline" aria-hidden="true"><use href="#icon-calendar"></use></svg> 시작일</label>
           <input type="date" id="start-date-input" />
         </div>
         <div class="form-group half">
-          <label>마감일</label>
+          <label><svg class="ui-icon icon-inline" aria-hidden="true"><use href="#icon-calendar"></use></svg> 마감일</label>
           <input type="date" id="deadline-input" />
         </div>
       </div>
@@ -125,17 +168,17 @@
         </div>
         <div class="form-row time-inputs-row" id="time-inputs-row">
           <div class="form-group half">
-            <label>시작 시간</label>
+            <label><svg class="ui-icon icon-inline" aria-hidden="true"><use href="#icon-clock"></use></svg> 시작 시간</label>
             <input type="time" id="start-time-input" value="00:00" disabled />
           </div>
           <div class="form-group half">
-            <label>종료 시간</label>
+            <label><svg class="ui-icon icon-inline" aria-hidden="true"><use href="#icon-clock"></use></svg> 종료 시간</label>
             <input type="time" id="end-time-input" value="18:00" disabled />
           </div>
         </div>
       </div>
       <div class="subtask-suggestion hidden" id="subtask-suggestion">
-        <label><svg class="ui-icon icon-inline" aria-hidden="true"><use href="assets/icons.svg#icon-subtask"></use></svg> 추천 세부 작업</label>
+        <label><svg class="ui-icon icon-inline" aria-hidden="true"><use href="#icon-subtask"></use></svg> 추천 세부 작업</label>
         <div class="subtask-chips" id="subtask-chips"></div>
       </div>
       <div class="form-group">

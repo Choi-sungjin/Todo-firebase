@@ -1435,11 +1435,6 @@ textarea {
   border: 1px solid var(--separator);
   color-scheme: dark;
 }
-[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
-[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.7;
-}
 [data-theme="dark"] #todo-input {
   background: var(--fill);
   color: var(--text-primary);
@@ -1483,6 +1478,8 @@ textarea {
   --hero-accent: #e50914;
   --premium-text: #161a23;
   --premium-text-muted: #4a5568;
+  --premium-icon: #243047;
+  --picker-icon-filter: brightness(0.4) saturate(1.1);
   --premium-header: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 64%, rgba(255, 255, 255, 0) 100%);
   --premium-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 250, 255, 0.9) 100%);
   --premium-surface-soft: rgba(255, 255, 255, 0.76);
@@ -1496,6 +1493,8 @@ textarea {
 [data-theme="dark"] {
   --premium-text: #f5f7fb;
   --premium-text-muted: #c8d1e3;
+  --premium-icon: #edf2ff;
+  --picker-icon-filter: invert(1) brightness(1.2);
   --premium-header: linear-gradient(180deg, rgba(5, 6, 8, 0.84) 0%, rgba(5, 6, 8, 0.52) 64%, rgba(5, 6, 8, 0) 100%);
   --premium-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   --premium-surface-soft: rgba(255, 255, 255, 0.06);
@@ -1743,7 +1742,7 @@ input[type="time"]:focus {
   height: 1em;
   display: inline-block;
   vertical-align: -0.14em;
-  color: currentColor;
+  color: var(--premium-icon);
 }
 
 .icon-inline {
@@ -1780,6 +1779,27 @@ input[type="time"]:focus {
 
 .todo-date .icon-inline {
   margin-right: 4px;
+  color: var(--premium-icon);
+}
+
+.form-group label .icon-inline {
+  margin-right: 6px;
+  color: var(--premium-icon);
+}
+
+.theme-toggle .ui-icon,
+.todo-actions .ui-icon,
+.schedule-title .ui-icon,
+.template-suggestion .ui-icon,
+.subtask-suggestion .ui-icon {
+  color: var(--premium-icon);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: var(--picker-icon-filter);
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 @media (max-width: 960px) {
