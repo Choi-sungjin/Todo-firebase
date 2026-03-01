@@ -16,6 +16,7 @@ function initSchedule() {
       if (bar && bar.dataset.date) {
         e.preventDefault();
         e.stopPropagation();
+        hideTooltip();
         if (typeof window.onScheduleDateClick === "function") window.onScheduleDateClick(bar.dataset.date);
         return;
       }
@@ -47,6 +48,8 @@ function initSchedule() {
     updateMonthLabel();
     renderChart();
   });
+
+  window.addEventListener("scroll", hideTooltip, true);
 }
 
 function updateMonthLabel() {
