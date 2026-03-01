@@ -1183,6 +1183,108 @@ textarea {
   color: var(--text-primary);
 }
 
+/* ── 원형 시계 타임 피커 ── */
+.time-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 170;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.time-picker-overlay.hidden {
+  display: none !important;
+}
+.time-picker-popup {
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--separator);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.time-picker-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+.clock-wrap {
+  padding: 8px;
+}
+.clock-face {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--separator);
+  position: relative;
+  touch-action: none;
+}
+.clock-face .clock-number {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  left: 50%;
+  top: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+.clock-hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+.clock-hand-hour {
+  width: 6px;
+  height: 45px;
+  margin-left: -3px;
+  background: var(--text-primary);
+  border-radius: 3px;
+  z-index: 3;
+}
+.clock-hand-minute {
+  width: 4px;
+  height: 65px;
+  margin-left: -2px;
+  background: var(--primary);
+  border-radius: 2px;
+  z-index: 2;
+}
+.clock-hand-second {
+  width: 2px;
+  height: 70px;
+  margin-left: -1px;
+  background: var(--danger, #dc2626);
+  border-radius: 1px;
+  z-index: 1;
+}
+.time-picker-display {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+.time-picker-actions {
+  width: 100%;
+}
+
 /* 날짜 필터 중 표시 (기존 할일보기 선택 시) */
 .date-filter-bar {
   display: flex;

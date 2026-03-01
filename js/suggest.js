@@ -13,6 +13,7 @@
     await loadScript("js/storage.js");
     await loadScript("js/schedule.js");
     await loadScript("js/app.js");
+    await loadScript("js/time-picker.js");
   }
 
   function loadScript(src) {

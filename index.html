@@ -158,6 +158,24 @@
     </div>
   </div>
 
+  <!-- 원형 시계 타임 피커 -->
+  <div class="time-picker-overlay hidden" id="time-picker-overlay">
+    <div class="time-picker-popup">
+      <p class="time-picker-title" id="time-picker-title">시간 선택</p>
+      <div class="clock-wrap">
+        <div class="clock-face" id="clock-face">
+          <div class="clock-hand clock-hand-hour" id="clock-hand-hour"></div>
+          <div class="clock-hand clock-hand-minute" id="clock-hand-minute"></div>
+          <div class="clock-hand clock-hand-second" id="clock-hand-second"></div>
+        </div>
+      </div>
+      <p class="time-picker-display" id="time-picker-display">00:00</p>
+      <div class="time-picker-actions">
+        <button type="button" class="date-choice-btn date-choice-btn-add" id="time-picker-apply">적용</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase Realtime Database -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
