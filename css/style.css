@@ -701,11 +701,17 @@ body {
   border: 1px dashed var(--separator);
 }
 .gantt-empty::before {
-  content: "🗂️";
+  content: "";
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--separator);
+  background: linear-gradient(135deg, rgba(11, 107, 203, 0.16), rgba(11, 107, 203, 0.03));
   display: block;
-  font-size: 36px;
   margin-bottom: 12px;
-  opacity: 0.6;
+  opacity: 0.9;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* 툴팁 */
@@ -1729,10 +1735,51 @@ input[type="time"]:focus {
 }
 
 .gantt-empty::before {
-  content: "🗂️";
-  font-size: 52px;
-  display: block;
-  margin-bottom: 12px;
+  content: "";
+}
+
+.ui-icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.14em;
+  color: currentColor;
+}
+
+.icon-inline {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.icon-button {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+.theme-toggle .icon-button {
+  width: 19px;
+  height: 19px;
+}
+
+.empty-state-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.empty-state-icon {
+  width: 56px;
+  height: 56px;
+  color: color-mix(in srgb, var(--premium-text-muted) 84%, transparent);
+}
+
+.schedule-title .icon-inline {
+  margin-right: 8px;
+}
+
+.todo-date .icon-inline {
+  margin-right: 4px;
 }
 
 @media (max-width: 960px) {

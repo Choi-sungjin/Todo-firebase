@@ -51,16 +51,17 @@ AI(Cursor/GPT)와 사람이 함께 개발할 때 공유하는 문맥 문서.
 | `data/keywords.json` | 카테고리 자동 추천용 키워드 (suggest.js에서 fetch) |
 | `data/templates.json` | 템플릿 목록 `templates` (suggest.js에서 fetch) |
 | `favicon.png` | 브라우저 탭/주소창 아이콘 (비율 981×911). 변경 후 주소창에 안 보이면 `index.html` favicon 링크에 `?v=숫자` 올려서 캐시 무효화 후 재배포 |
+| `assets/icons.svg` | SVG 아이콘 심볼 세트 (moon/sun/spark/calendar/clock/subtask/edit/delete/empty). `<use href="assets/icons.svg#id">` 로 참조 |
 | `HANDOFF.md` | 협업 문맥·구조 변경 규칙·롤백 방법 |
 
 ### 2-2. 이번 턴 변경 파일 로그
 
 | 파일 | 변경 유형 | 요약 |
 |------|-----------|------|
-| `css/style.css` | UI 디자인 | Premium Service UI Overrides (Theme-Aware): 라이트/다크 각각 프리미엄 토큰, 대비 개선. 이모티콘 크기 확대(empty 56px, schedule-title 18px, template/subtask/카드 버튼·날짜·gantt-empty) |
-| `index.html` | 이모티콘 | 🎉→🪄, 📅→🗓️, 💡→✨, 카테고리 🧠🧘🧪🧩, 우선순위 🔥🍃, 🧩 추천 세부 작업 |
-| `js/app.js` | 이모티콘 | 카드 메타/버튼 🗓️🧩🛠️🧹 |
-| `index.html` | favicon | 상대 경로 `./favicon.png?v=2` 적용 |
+| `assets/icons.svg` | 신규 | moon/sun/spark/calendar/clock/subtask/edit/delete/empty SVG 심볼 세트 |
+| `index.html` | UI | 이모지→SVG: 빈 상태(icon-empty), 전체 일정(icon-calendar), 템플릿(icon-spark), 추천 세부 작업(icon-subtask). 테마 토글은 JS에서 icon-sun/icon-moon 주입 |
+| `js/app.js` | UI | iconSvg() 도입, 카드 메타(icon-clock/calendar/subtask)·버튼(icon-edit/delete), 테마 토글 SVG |
+| `css/style.css` | UI | .ui-icon, .icon-inline, .icon-button, .empty-state-icon(56px), .schedule-title/.todo-date 인라인 아이콘 여백. gantt-empty::before 이모지 제거 |
 | `HANDOFF.md` | 문서 수정 | 턴 로그 갱신 |
 
 ---

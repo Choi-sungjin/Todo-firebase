@@ -20,16 +20,19 @@ document.getElementById("header-date").textContent = today.toLocaleDateString("k
 function getTheme() {
   return document.documentElement.getAttribute("data-theme") || "light";
 }
+function iconSvg(id, cls) {
+  return '<svg class="' + (cls || "ui-icon") + '" aria-hidden="true"><use href="assets/icons.svg#' + id + '"></use></svg>';
+}
 function setTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   localStorage.setItem("theme", theme);
   var btn = document.getElementById("theme-toggle");
-  if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  if (btn) btn.innerHTML = theme === "dark" ? iconSvg("icon-sun", "ui-icon icon-button") : iconSvg("icon-moon", "ui-icon icon-button");
 }
 function initThemeToggle() {
   var btn = document.getElementById("theme-toggle");
   if (!btn) return;
-  btn.textContent = getTheme() === "dark" ? "☀️" : "🌙";
+  btn.innerHTML = getTheme() === "dark" ? iconSvg("icon-sun", "ui-icon icon-button") : iconSvg("icon-moon", "ui-icon icon-button");
   btn.addEventListener("click", function () {
     var next = getTheme() === "dark" ? "light" : "dark";
     setTheme(next);
@@ -495,7 +498,7 @@ function renderTodos(todosObj) {
     var memoPreview = memo ? '<div class="todo-memo-preview">' + memo + '</div>' : '';
     var isDone = todo.status === "done";
     var doneClass = isDone ? "todo-done-toggle checked" : "todo-done-toggle";
-    var timeMeta = timeLabel ? '<span class="todo-date">⏱️ ' + timeLabel + '</span>' : "";
+    var timeMeta = timeLabel ? '<span class="todo-date">' + iconSvg("icon-clock", "ui-icon icon-inline") + " " + timeLabel + '</span>' : "";
     return (
       '<div class="todo-card priority-' + (todo.priority || "medium") + '" data-id="' + id + '">' +
         '<div class="todo-body">' +
@@ -504,17 +507,17 @@ function renderTodos(todosObj) {
           '<div class="todo-title ' + (isDone ? "done" : "") + '">' + (todo.title || "").replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</div>' +
           '<div class="todo-meta">' +
             (todo.category ? '<span class="badge ' + todo.category + '">' + (todo.category || "").replace(/</g, "&lt;") + '</span>' : "") +
-            (todo.deadline ? '<span class="todo-date">🗓️ ' + (todo.deadline || "").replace(/</g, "&lt;") + '</span>' : "") +
+            (todo.deadline ? '<span class="todo-date">' + iconSvg("icon-calendar", "ui-icon icon-inline") + " " + (todo.deadline || "").replace(/</g, "&lt;") + '</span>' : "") +
             (timeMeta ? timeMeta : "") +
-            (todo.subtasks && todo.subtasks.length ? '<span class="todo-date">🧩 ' + todo.subtasks.length + '개 작업</span>' : "") +
+            (todo.subtasks && todo.subtasks.length ? '<span class="todo-date">' + iconSvg("icon-subtask", "ui-icon icon-inline") + " " + todo.subtasks.length + '개 작업</span>' : "") +
           "</div>" +
           memoPreview +
           detailHtml +
           "</div>" +
         "</div>" +
         '<div class="todo-actions">' +
-          '<button class="todo-btn-edit" onclick="event.stopPropagation(); window.openModalForEdit(\'' + id + '\');" title="수정">🛠️</button>' +
-          '<button class="todo-btn-delete" onclick="event.stopPropagation(); window.confirmDelete(\'' + id + '\');" title="삭제">🧹</button>' +
+          '<button class="todo-btn-edit" onclick="event.stopPropagation(); window.openModalForEdit(\'' + id + '\');" title="수정">' + iconSvg("icon-edit", "ui-icon icon-button") + '</button>' +
+          '<button class="todo-btn-delete" onclick="event.stopPropagation(); window.confirmDelete(\'' + id + '\');" title="삭제">' + iconSvg("icon-delete", "ui-icon icon-button") + '</button>' +
         "</div>" +
       "</div>"
     );

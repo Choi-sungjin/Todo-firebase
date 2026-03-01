@@ -48,7 +48,9 @@
       <button type="button" class="date-filter-clear" id="date-filter-clear">전체 보기</button>
     </div>
     <div class="empty-state" id="empty-state">
-      <p>🪄</p>
+      <p class="empty-state-icon-wrap">
+        <svg class="ui-icon empty-state-icon" aria-hidden="true"><use href="assets/icons.svg#icon-empty"></use></svg>
+      </p>
       <p>할일이 없어요!</p>
     </div>
     <div id="todo-list-cards"></div>
@@ -57,7 +59,7 @@
   <!-- ───── 스케줄 차트 섹션 ───── -->
   <section class="schedule-section" id="nav-schedule">
     <div class="schedule-header">
-      <h2 class="schedule-title">🗓️ 전체 일정</h2>
+      <h2 class="schedule-title"><svg class="ui-icon icon-inline" aria-hidden="true"><use href="assets/icons.svg#icon-calendar"></use></svg> 전체 일정</h2>
       <div class="month-nav">
         <button id="prev-month">‹</button>
         <span id="current-month-label"></span>
@@ -80,7 +82,7 @@
         </div>
       </div>
       <div class="template-suggestion hidden" id="template-suggestion">
-        <span>✨</span>
+        <span><svg class="ui-icon icon-inline" aria-hidden="true"><use href="assets/icons.svg#icon-spark"></use></svg></span>
         <span id="template-name"></span>
         <button id="apply-template">적용</button>
       </div>
@@ -89,18 +91,18 @@
           <label>카테고리</label>
           <select id="category-select">
             <option value="">없음</option>
-            <option value="업무">🧠 업무</option>
-            <option value="건강">🧘 건강</option>
-            <option value="학습">🧪 학습</option>
-            <option value="생활">🧩 생활</option>
+            <option value="업무">업무</option>
+            <option value="건강">건강</option>
+            <option value="학습">학습</option>
+            <option value="생활">생활</option>
           </select>
         </div>
         <div class="form-group half">
           <label>우선순위</label>
           <select id="priority-select">
             <option value="medium">보통</option>
-            <option value="high">높음 🔥</option>
-            <option value="low">낮음 🍃</option>
+            <option value="high">높음</option>
+            <option value="low">낮음</option>
           </select>
         </div>
       </div>
@@ -133,7 +135,7 @@
         </div>
       </div>
       <div class="subtask-suggestion hidden" id="subtask-suggestion">
-        <label>🧩 추천 세부 작업</label>
+        <label><svg class="ui-icon icon-inline" aria-hidden="true"><use href="assets/icons.svg#icon-subtask"></use></svg> 추천 세부 작업</label>
         <div class="subtask-chips" id="subtask-chips"></div>
       </div>
       <div class="form-group">
