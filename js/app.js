@@ -71,6 +71,7 @@ document.querySelectorAll(".tab").forEach((tab) => {
     document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
     currentTab = tab.dataset.tab;
+    window.filterByDate = null;
     renderTodos(getTodosArray());
   });
 });
