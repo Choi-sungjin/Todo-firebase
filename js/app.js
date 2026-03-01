@@ -100,12 +100,14 @@ document.getElementById("close-modal").addEventListener("click", closeModal);
 })();
 
 function openModal() {
+  if (typeof window._hideChartTooltip === "function") window._hideChartTooltip();
   openModalWithDate(getLocalDateStr(today));
 }
 
 /** 전체일정에서 날짜 클릭 시 해당 날짜로 새 할일 등록용 (항상 빈 폼으로 열기) */
 function openModalWithDate(dateStr) {
   editingTodoId = null;
+  if (typeof window._hideChartTooltip === "function") window._hideChartTooltip();
   resetForm();
   document.getElementById("modal-title").textContent = "새 할일";
   document.getElementById("add-btn").textContent = "추가하기";
@@ -224,9 +226,17 @@ function resetForm() {
   document.getElementById("category-select").value = "";
   document.getElementById("priority-select").value = "medium";
   document.getElementById("memo-input").value = "";
-  document.getElementById("autocomplete-list").classList.add("hidden");
-  document.getElementById("template-suggestion").classList.add("hidden");
-  document.getElementById("subtask-suggestion").classList.add("hidden");
+  var autocompleteList = document.getElementById("autocomplete-list");
+  autocompleteList.classList.add("hidden");
+  autocompleteList.innerHTML = "";
+  var templateSuggestion = document.getElementById("template-suggestion");
+  templateSuggestion.classList.add("hidden");
+  var templateName = document.getElementById("template-name");
+  if (templateName) templateName.textContent = "";
+  var subtaskSuggestion = document.getElementById("subtask-suggestion");
+  subtaskSuggestion.classList.add("hidden");
+  var subtaskChips = document.getElementById("subtask-chips");
+  if (subtaskChips) subtaskChips.innerHTML = "";
   selectedSubtasks = [];
   currentTemplate = null;
 }
