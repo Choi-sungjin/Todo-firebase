@@ -12,13 +12,13 @@
   var btnModeMinute = document.getElementById("time-picker-mode-minute");
   var btnAM = document.getElementById("time-picker-am");
   var btnPM = document.getElementById("time-picker-pm");
-  var btn24 = document.getElementById("time-picker-24");
+  var btnAllDay = document.getElementById("time-picker-all-day");
+  var cancelBtn = document.getElementById("time-picker-cancel");
 
   var _targetInput = null;
   var _hour = 0;
   var _minute = 0;
   var _mode = "hour"; // "hour" | "minute" — 드래그 시 움직일 바늘
-  var _use24h = false; // true면 표시만 24시 형식
   var _dragging = null; // "hour" | "minute"
   var _clockRect = null;
   var _clockCenter = { x: 0, y: 0 };
@@ -46,13 +46,48 @@
   }
 
   function updateDisplay() {
-    if (_use24h) {
-      displayEl.textContent = pad2(_hour) + ":" + pad2(_minute);
+    var h12 = _hour % 12;
+    if (h12 === 0) h12 = 12;
+    var ampm = _hour < 12 ? "오전" : "오후";
+    var text = ampm + " " + h12 + ":" + pad2(_minute);
+    if (displayEl) displayEl.value = text;
+  }
+
+  function parseDisplayInput(val) {
+    if (!val || typeof val !== "string") return null;
+    var s = val.trim();
+    var isPM = /오후/i.test(s);
+    var isAM = /오전/i.test(s);
+    var num = s.replace(/[^\d]/g, "");
+    if (num.length >= 3) {
+      var h = parseInt(num.slice(0, num.length - 2), 10) % 24;
+      var m = parseInt(num.slice(-2), 10) % 60;
+      if (isPM && h < 12) h += 12;
+      if (isAM && h >= 12) h = h % 12;
+      return { h: h, m: m };
+    }
+    var match = s.match(/(\d{1,2})\s*:\s*(\d{1,2})/);
+    if (match) {
+      var h = parseInt(match[1], 10) % 24;
+      var m = Math.min(59, Math.max(0, parseInt(match[2], 10) || 0));
+      if (isPM && h < 12) h += 12;
+      if (isAM && h >= 12) h = h % 12;
+      return { h: h, m: m };
+    }
+    return null;
+  }
+
+  function commitDisplayInput() {
+    var val = displayEl ? displayEl.value : "";
+    var p = parseDisplayInput(val);
+    if (p) {
+      _hour = p.h;
+      _minute = p.m;
+      setHands();
+      updateDisplay();
+      updateAmPmButtons();
     } else {
-      var h12 = _hour % 12;
-      if (h12 === 0) h12 = 12;
-      var ampm = _hour < 12 ? "오전" : "오후";
-      displayEl.textContent = ampm + " " + h12 + ":" + pad2(_minute);
+      updateDisplay();
     }
   }
 
@@ -64,7 +99,8 @@
   function updateAmPmButtons() {
     if (btnAM) btnAM.classList.toggle("active", _hour < 12);
     if (btnPM) btnPM.classList.toggle("active", _hour >= 12);
-    if (btn24) btn24.classList.toggle("active", _use24h);
+    var allDayEl = document.getElementById("all-day-checkbox");
+    if (btnAllDay) btnAllDay.classList.toggle("active", allDayEl && allDayEl.checked);
   }
 
   function angleFromCenter(clientX, clientY) {
@@ -172,9 +208,34 @@
   document.addEventListener("touchend", onPointerUp);
 
   if (applyBtn) applyBtn.addEventListener("click", applyTime);
+  if (cancelBtn) cancelBtn.addEventListener("click", closePicker);
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closePicker();
   });
+
+  if (displayEl) {
+    displayEl.addEventListener("blur", commitDisplayInput);
+    displayEl.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        _minute += 1;
+        if (_minute >= 60) { _minute = 0; _hour = (_hour + 1) % 24; }
+        setHands();
+        updateDisplay();
+        updateAmPmButtons();
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        _minute -= 1;
+        if (_minute < 0) { _minute = 59; _hour = (_hour - 1 + 24) % 24; }
+        setHands();
+        updateDisplay();
+        updateAmPmButtons();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        commitDisplayInput();
+      }
+    });
+  }
 
   if (btnModeHour) btnModeHour.addEventListener("click", function () {
     _mode = "hour";
@@ -196,10 +257,17 @@
     updateDisplay();
     updateAmPmButtons();
   });
-  if (btn24) btn24.addEventListener("click", function () {
-    _use24h = !_use24h;
-    updateDisplay();
-    updateAmPmButtons();
+  if (btnAllDay) btnAllDay.addEventListener("click", function () {
+    var allDayCheckbox = document.getElementById("all-day-checkbox");
+    var startInput = document.getElementById("start-time-input");
+    var endInput = document.getElementById("end-time-input");
+    if (allDayCheckbox) {
+      allDayCheckbox.checked = true;
+      allDayCheckbox.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    if (startInput) { startInput.value = "00:00"; startInput.dispatchEvent(new Event("change", { bubbles: true })); }
+    if (endInput) { endInput.value = "00:00"; endInput.dispatchEvent(new Event("change", { bubbles: true })); }
+    closePicker();
   });
 
   for (var i = 1; i <= 12; i++) {
