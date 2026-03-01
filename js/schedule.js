@@ -12,7 +12,13 @@ function initSchedule() {
   const chartEl = document.getElementById("schedule-chart");
   if (chartEl) {
     chartEl.addEventListener("click", function (e) {
-      if (e.target.closest(".gantt-bar")) return;
+      const bar = e.target.closest(".gantt-bar");
+      if (bar && bar.dataset.date) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof window.onScheduleDateClick === "function") window.onScheduleDateClick(bar.dataset.date);
+        return;
+      }
       const cell = e.target.closest(".gantt-day-clickable, .gantt-cell-clickable");
       if (!cell || !cell.dataset.date) return;
       e.preventDefault();
@@ -135,7 +141,7 @@ function renderChart() {
           <div class="gantt-timeline">
             ${dayCellsRow}
             <div class="gantt-bar ${priorityClass(r.priority)}" style="left:${leftPct}%;width:${widthPct}%;"
-                 data-title="${titleEsc}" data-start="${r.startDay}" data-end="${r.endDay}"
+                 data-title="${titleEsc}" data-start="${r.startDay}" data-end="${r.endDay}" data-date="${toDateStr(r.startDay)}"
                  onmouseenter="window._showGanttTooltip(event, this)"
                  onmouseleave="window._hideChartTooltip()"></div>
           </div>
