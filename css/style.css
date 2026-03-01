@@ -1471,3 +1471,219 @@ textarea {
   background: rgba(198, 40, 40, 0.25);
   color: #e57373;
 }
+
+/* ── Premium Service UI Overrides (Cinematic) ── */
+:root {
+  --canvas-top: #16171d;
+  --canvas-mid: #0f1014;
+  --canvas-bottom: #090a0d;
+  --surface-1: rgba(255, 255, 255, 0.06);
+  --surface-2: rgba(255, 255, 255, 0.1);
+  --border-soft: rgba(255, 255, 255, 0.14);
+  --glow-accent: rgba(229, 9, 20, 0.24);
+  --hero-accent: #e50914;
+}
+
+html,
+body {
+  max-width: none;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(1000px 540px at 85% -10%, rgba(229, 9, 20, 0.16), transparent 62%),
+    radial-gradient(700px 380px at 8% -8%, rgba(71, 106, 255, 0.14), transparent 58%),
+    linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 45%, var(--canvas-bottom) 100%);
+  color: #f5f7fb;
+}
+
+.header {
+  padding: 18px 20px 6px;
+  background: linear-gradient(180deg, rgba(5, 6, 8, 0.82) 0%, rgba(5, 6, 8, 0.5) 60%, rgba(5, 6, 8, 0) 100%);
+  border-bottom: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.header-top,
+.tab-group,
+.todo-list,
+.schedule-section {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-top {
+  padding: 0 4px;
+}
+
+.header-date {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 12px;
+}
+
+.header-title {
+  color: #f8f9ff;
+  font-size: 30px;
+  letter-spacing: -0.04em;
+}
+
+.theme-toggle {
+  border: 1px solid var(--border-soft);
+  background: var(--surface-1);
+  color: #f2f3f6;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-2);
+}
+
+.add-fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(120deg, #ff3d45 0%, var(--hero-accent) 80%);
+  box-shadow: 0 10px 28px var(--glow-accent);
+}
+
+.tab-group {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 10px;
+}
+
+.tab.active {
+  color: #ffffff;
+  border-bottom-color: var(--hero-accent);
+}
+
+.todo-list {
+  padding: 26px 20px 92px;
+}
+
+#todo-list-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.todo-card {
+  margin-bottom: 0;
+  min-height: 120px;
+  border: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+  transition: transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 160ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 160ms ease;
+}
+
+.todo-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.38);
+}
+
+.todo-title {
+  color: #f8f8fc;
+  font-size: 17px;
+}
+
+.todo-date,
+.todo-memo-preview,
+.todo-detail {
+  color: rgba(232, 236, 248, 0.7);
+}
+
+.todo-actions button {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.todo-actions button:hover {
+  background: rgba(255, 255, 255, 0.11);
+  color: #fff;
+}
+
+.schedule-section {
+  margin-top: 8px;
+  background: linear-gradient(180deg, rgba(17, 18, 24, 0.94) 0%, rgba(11, 12, 16, 0.96) 100%);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.34);
+}
+
+.schedule-title {
+  color: #f3f4fa;
+}
+
+.gantt-wrap {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.gantt-row:nth-child(even) {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.gantt-row:hover {
+  background: rgba(255, 255, 255, 0.065);
+}
+
+.empty-state {
+  padding: 80px 24px;
+  color: rgba(228, 233, 246, 0.8);
+}
+
+.empty-state p:first-child {
+  font-size: 42px;
+}
+
+.modal {
+  background: linear-gradient(180deg, #161821 0%, #111319 100%);
+  color: #f4f6ff;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+#todo-input,
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f4f6ff;
+}
+
+#todo-input::placeholder,
+textarea::placeholder {
+  color: rgba(236, 239, 251, 0.5);
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus,
+input[type="date"]:focus,
+input[type="time"]:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.date-choice-popup,
+.time-picker-popup {
+  background: linear-gradient(180deg, #161821 0%, #111319 100%);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+@media (max-width: 960px) {
+  #todo-list-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .header-title {
+    font-size: 24px;
+  }
+}
