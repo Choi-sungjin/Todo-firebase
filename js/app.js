@@ -202,6 +202,19 @@ function openModalForEdit(id) {
   document.getElementById("priority-select").value = todo.priority || "medium";
   document.getElementById("start-date-input").value = todo.startDate || "";
   document.getElementById("deadline-input").value = todo.deadline || "";
+  var allDayEl = document.getElementById("all-day-checkbox");
+  var startTimeEl = document.getElementById("start-time-input");
+  var endTimeEl = document.getElementById("end-time-input");
+  var isAllDay = todo.allDay === true || (todo.allDay !== false && !todo.startTime && !todo.endTime);
+  if (allDayEl) allDayEl.checked = isAllDay;
+  if (startTimeEl) {
+    startTimeEl.value = todo.startTime || "09:00";
+    startTimeEl.disabled = isAllDay;
+  }
+  if (endTimeEl) {
+    endTimeEl.value = todo.endTime || "18:00";
+    endTimeEl.disabled = isAllDay;
+  }
   document.getElementById("memo-input").value = todo.memo || "";
   document.getElementById("autocomplete-list").classList.add("hidden");
   document.getElementById("template-suggestion").classList.add("hidden");
@@ -227,6 +240,14 @@ function resetForm() {
   document.getElementById("category-select").value = "";
   document.getElementById("priority-select").value = "medium";
   document.getElementById("memo-input").value = "";
+  var allDayEl = document.getElementById("all-day-checkbox");
+  var startTimeEl = document.getElementById("start-time-input");
+  var endTimeEl = document.getElementById("end-time-input");
+  if (allDayEl) {
+    allDayEl.checked = true;
+    if (startTimeEl) { startTimeEl.value = "09:00"; startTimeEl.disabled = true; }
+    if (endTimeEl) { endTimeEl.value = "18:00"; endTimeEl.disabled = true; }
+  }
   var autocompleteList = document.getElementById("autocomplete-list");
   autocompleteList.classList.add("hidden");
   autocompleteList.innerHTML = "";
@@ -316,6 +337,25 @@ document.getElementById("apply-template").addEventListener("click", function () 
   document.getElementById("template-suggestion").classList.add("hidden");
 });
 
+(function initAllDayCheckbox() {
+  var allDayEl = document.getElementById("all-day-checkbox");
+  var startTimeEl = document.getElementById("start-time-input");
+  var endTimeEl = document.getElementById("end-time-input");
+  if (!allDayEl || !startTimeEl || !endTimeEl) return;
+  allDayEl.addEventListener("change", function () {
+    var checked = allDayEl.checked;
+    startTimeEl.disabled = checked;
+    endTimeEl.disabled = checked;
+    if (checked) {
+      startTimeEl.value = "00:00";
+      endTimeEl.value = "23:59";
+    } else if (startTimeEl.value === "00:00" && endTimeEl.value === "23:59") {
+      startTimeEl.value = "09:00";
+      endTimeEl.value = "18:00";
+    }
+  });
+})();
+
 document.getElementById("add-btn").addEventListener("click", function () {
   var title = input.value.trim();
   if (!title) {
@@ -325,12 +365,19 @@ document.getElementById("add-btn").addEventListener("click", function () {
     }, 600);
     return;
   }
+  var allDayEl = document.getElementById("all-day-checkbox");
+  var allDay = allDayEl ? allDayEl.checked : true;
+  var startTimeEl = document.getElementById("start-time-input");
+  var endTimeEl = document.getElementById("end-time-input");
   var payload = {
     title: title,
     category: document.getElementById("category-select").value || "",
     priority: document.getElementById("priority-select").value || "medium",
     startDate: document.getElementById("start-date-input").value || "",
     deadline: document.getElementById("deadline-input").value || "",
+    allDay: allDay,
+    startTime: allDay ? "" : (startTimeEl ? startTimeEl.value : ""),
+    endTime: allDay ? "" : (endTimeEl ? endTimeEl.value : ""),
     memo: document.getElementById("memo-input").value || "",
     subtasks: Array.isArray(selectedSubtasks) ? selectedSubtasks : []
   };
@@ -366,13 +413,7 @@ function renderTodos(todosObj) {
   var todos = Array.isArray(todosObj) ? todosObj : Object.values(todosObj || {});
 
   var filterBar = document.getElementById("date-filter-bar");
-  var filterTextEl = document.getElementById("date-filter-text");
-  if (window.filterByDate) {
-    if (filterBar) filterBar.classList.remove("hidden");
-    if (filterTextEl) filterTextEl.textContent = formatDateLabel(window.filterByDate) + " 할일";
-  } else {
-    if (filterBar) filterBar.classList.add("hidden");
-  }
+  if (filterBar) filterBar.classList.add("hidden");
 
   var todayStr = getLocalDateStr(today);
   if (currentTab === "today") {
@@ -410,7 +451,14 @@ function renderTodos(todosObj) {
 
   var order = { high: 0, medium: 1, low: 2 };
   todos.sort(function (a, b) {
-    return (order[a.priority] || 1) - (order[b.priority] || 1);
+    var pc = (order[a.priority] || 1) - (order[b.priority] || 1);
+    if (pc !== 0) return pc;
+    var ta = a.startTime || "";
+    var tb = b.startTime || "";
+    if (!ta && !tb) return 0;
+    if (!ta) return 1;
+    if (!tb) return -1;
+    return ta.localeCompare(tb);
   });
 
   if (!todos.length) {
@@ -432,10 +480,14 @@ function renderTodos(todosObj) {
     var subtasksList = Array.isArray(todo.subtasks) && todo.subtasks.length
       ? "<ul class=\"todo-detail-list\">" + todo.subtasks.map(function (s) { return "<li>" + (s || "").replace(/</g, "&lt;") + "</li>"; }).join("") + "</ul>"
       : "";
+    var isAllDay = todo.allDay === true || (todo.allDay !== false && !todo.startTime && !todo.endTime);
+    var timeLabel = isAllDay ? "종일" : (todo.startTime && todo.endTime ? (todo.startTime.replace(/</g, "&lt;") + " ~ " + todo.endTime.replace(/</g, "&lt;")) : (todo.startTime || todo.endTime || "").replace(/</g, "&lt;"));
+    var timeRow = timeLabel ? "<p class=\"todo-detail-row\"><span class=\"todo-detail-label\">시간</span> " + timeLabel + "</p>" : "";
     var detailHtml = "<div class=\"todo-detail " + (isExpanded ? "" : "hidden") + "\">" +
       (memo ? "<p class=\"todo-detail-row\"><span class=\"todo-detail-label\">메모</span> " + memo + "</p>" : "") +
       (startDate ? "<p class=\"todo-detail-row\"><span class=\"todo-detail-label\">시작일</span> " + startDate + "</p>" : "") +
       (deadline ? "<p class=\"todo-detail-row\"><span class=\"todo-detail-label\">마감일</span> " + deadline + "</p>" : "") +
+      (timeRow ? timeRow : "") +
       (todo.category ? "<p class=\"todo-detail-row\"><span class=\"todo-detail-label\">카테고리</span> " + (todo.category || "").replace(/</g, "&lt;") + "</p>" : "") +
       (todo.priority ? "<p class=\"todo-detail-row\"><span class=\"todo-detail-label\">우선순위</span> " + (todo.priority || "").replace(/</g, "&lt;") + "</p>" : "") +
       (subtasksList ? "<p class=\"todo-detail-row\"><span class=\"todo-detail-label\">세부 작업</span></p>" + subtasksList : "") +
@@ -443,6 +495,7 @@ function renderTodos(todosObj) {
     var memoPreview = memo ? '<div class="todo-memo-preview">' + memo + '</div>' : '';
     var isDone = todo.status === "done";
     var doneClass = isDone ? "todo-done-toggle checked" : "todo-done-toggle";
+    var timeMeta = timeLabel ? '<span class="todo-date">🕐 ' + timeLabel + '</span>' : "";
     return (
       '<div class="todo-card priority-' + (todo.priority || "medium") + '" data-id="' + id + '">' +
         '<div class="todo-body">' +
@@ -452,6 +505,7 @@ function renderTodos(todosObj) {
           '<div class="todo-meta">' +
             (todo.category ? '<span class="badge ' + todo.category + '">' + (todo.category || "").replace(/</g, "&lt;") + '</span>' : "") +
             (todo.deadline ? '<span class="todo-date">📅 ' + (todo.deadline || "").replace(/</g, "&lt;") + '</span>' : "") +
+            (timeMeta ? timeMeta : "") +
             (todo.subtasks && todo.subtasks.length ? '<span class="todo-date">📌 ' + todo.subtasks.length + '개 작업</span>' : "") +
           "</div>" +
           memoPreview +

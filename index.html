@@ -113,6 +113,24 @@
           <input type="date" id="deadline-input" />
         </div>
       </div>
+      <div class="form-row form-row-all-day">
+        <div class="form-group all-day-group">
+          <label class="all-day-label">
+            <input type="checkbox" id="all-day-checkbox" checked />
+            <span>종일</span>
+          </label>
+        </div>
+        <div class="form-row time-inputs-row" id="time-inputs-row">
+          <div class="form-group half">
+            <label>시작 시간</label>
+            <input type="time" id="start-time-input" value="09:00" disabled />
+          </div>
+          <div class="form-group half">
+            <label>종료 시간</label>
+            <input type="time" id="end-time-input" value="18:00" disabled />
+          </div>
+        </div>
+      </div>
       <div class="subtask-suggestion hidden" id="subtask-suggestion">
         <label>📌 추천 세부 작업</label>
         <div class="subtask-chips" id="subtask-chips"></div>

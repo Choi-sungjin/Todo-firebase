@@ -901,7 +901,37 @@ body {
 }
 
 input[type="text"],
+.form-row-all-day {
+  align-items: flex-end;
+}
+.all-day-group {
+  flex-shrink: 0;
+}
+.all-day-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.all-day-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.time-inputs-row {
+  flex: 1;
+  margin-bottom: 0;
+}
+.time-inputs-row input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 input[type="date"],
+input[type="time"],
 select,
 textarea {
   width: 100%;
