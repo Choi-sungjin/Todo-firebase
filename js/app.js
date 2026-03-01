@@ -103,17 +103,19 @@ function openModal() {
   openModalWithDate(getLocalDateStr(today));
 }
 
-/** 전체일정에서 날짜 클릭 시 해당 날짜로 새 할일 등록용 */
+/** 전체일정에서 날짜 클릭 시 해당 날짜로 새 할일 등록용 (항상 빈 폼으로 열기) */
 function openModalWithDate(dateStr) {
   editingTodoId = null;
+  resetForm();
   document.getElementById("modal-title").textContent = "새 할일";
   document.getElementById("add-btn").textContent = "추가하기";
-  document.getElementById("modal-overlay").classList.remove("hidden");
   const startEl = document.getElementById("start-date-input");
   const deadlineEl = document.getElementById("deadline-input");
-  if (startEl) startEl.value = dateStr || getLocalDateStr(today);
-  if (deadlineEl) deadlineEl.value = dateStr || getLocalDateStr(today);
-  resetForm();
+  var d = dateStr || getLocalDateStr(today);
+  if (startEl) startEl.value = d;
+  if (deadlineEl) deadlineEl.value = d;
+  document.getElementById("todo-input").value = "";
+  document.getElementById("modal-overlay").classList.remove("hidden");
   setTimeout(function () {
     document.getElementById("todo-input").focus();
   }, 300);
