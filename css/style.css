@@ -1463,20 +1463,20 @@ textarea {
 }
 
 [data-theme="dark"] .badge.업무 {
-  background: rgba(74, 158, 255, 0.2);
-  color: #7eb8ff;
+  background: rgba(74, 158, 255, 0.32);
+  color: #d9ecff;
 }
 [data-theme="dark"] .badge.건강 {
-  background: rgba(46, 125, 50, 0.25);
-  color: #81c784;
+  background: rgba(46, 125, 50, 0.36);
+  color: #def7df;
 }
 [data-theme="dark"] .badge.학습 {
-  background: rgba(237, 108, 2, 0.25);
-  color: #ffb74d;
+  background: rgba(237, 108, 2, 0.36);
+  color: #ffe4bf;
 }
 [data-theme="dark"] .badge.생활 {
-  background: rgba(198, 40, 40, 0.25);
-  color: #e57373;
+  background: rgba(198, 40, 40, 0.34);
+  color: #ffd7db;
 }
 
 /* ── Premium Service UI Overrides (Theme-Aware) ── */
@@ -1485,7 +1485,6 @@ textarea {
   --premium-text: #161a23;
   --premium-text-muted: #4a5568;
   --premium-icon: #243047;
-  --picker-icon-filter: brightness(0.4) saturate(1.1);
   --premium-header: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 64%, rgba(255, 255, 255, 0) 100%);
   --premium-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 250, 255, 0.9) 100%);
   --premium-surface-soft: rgba(255, 255, 255, 0.76);
@@ -1500,7 +1499,6 @@ textarea {
   --premium-text: #f5f7fb;
   --premium-text-muted: #c8d1e3;
   --premium-icon: #edf2ff;
-  --picker-icon-filter: invert(1) brightness(1.2);
   --premium-header: linear-gradient(180deg, rgba(5, 6, 8, 0.84) 0%, rgba(5, 6, 8, 0.52) 64%, rgba(5, 6, 8, 0) 100%);
   --premium-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   --premium-surface-soft: rgba(255, 255, 255, 0.06);
@@ -1803,16 +1801,19 @@ input[type="time"]:focus {
 
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: var(--picker-icon-filter);
-  opacity: 0.9;
+  opacity: 0.95;
   cursor: pointer;
+}
+
+[data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="light"] input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0) saturate(100%);
 }
 
 [data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
 [data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(1) brightness(1.4);
-  opacity: 0.95;
-  cursor: pointer;
+  filter: none !important;
+  opacity: 1;
 }
 
 @media (max-width: 960px) {
