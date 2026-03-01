@@ -162,12 +162,20 @@
   <div class="time-picker-overlay hidden" id="time-picker-overlay">
     <div class="time-picker-popup">
       <p class="time-picker-title" id="time-picker-title">시간 선택</p>
+      <div class="time-picker-mode-row">
+        <button type="button" class="time-picker-mode-btn active" id="time-picker-mode-hour">시 선택</button>
+        <button type="button" class="time-picker-mode-btn" id="time-picker-mode-minute">분 선택</button>
+      </div>
       <div class="clock-wrap">
         <div class="clock-face" id="clock-face">
           <div class="clock-hand clock-hand-hour" id="clock-hand-hour"></div>
           <div class="clock-hand clock-hand-minute" id="clock-hand-minute"></div>
-          <div class="clock-hand clock-hand-second" id="clock-hand-second"></div>
         </div>
+      </div>
+      <div class="time-picker-ampm-row">
+        <button type="button" class="time-picker-ampm-btn" id="time-picker-am">오전</button>
+        <button type="button" class="time-picker-ampm-btn" id="time-picker-pm">오후</button>
+        <button type="button" class="time-picker-ampm-btn" id="time-picker-24">24시</button>
       </div>
       <p class="time-picker-display" id="time-picker-display">00:00</p>
       <div class="time-picker-actions">

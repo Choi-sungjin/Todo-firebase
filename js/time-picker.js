@@ -1,20 +1,25 @@
-// time-picker.js — 원형 시계(시침/분침/초침) 타임 피커
+// time-picker.js — 원형 시계(시침/분침) 타임 피커
 
 (function () {
   var overlay = document.getElementById("time-picker-overlay");
   var face = document.getElementById("clock-face");
   var handHour = document.getElementById("clock-hand-hour");
   var handMinute = document.getElementById("clock-hand-minute");
-  var handSecond = document.getElementById("clock-hand-second");
   var displayEl = document.getElementById("time-picker-display");
   var titleEl = document.getElementById("time-picker-title");
   var applyBtn = document.getElementById("time-picker-apply");
+  var btnModeHour = document.getElementById("time-picker-mode-hour");
+  var btnModeMinute = document.getElementById("time-picker-mode-minute");
+  var btnAM = document.getElementById("time-picker-am");
+  var btnPM = document.getElementById("time-picker-pm");
+  var btn24 = document.getElementById("time-picker-24");
 
   var _targetInput = null;
   var _hour = 0;
   var _minute = 0;
-  var _second = 0;
-  var _dragging = null; // "hour" | "minute" | "second"
+  var _mode = "hour"; // "hour" | "minute" — 드래그 시 움직일 바늘
+  var _use24h = false; // true면 표시만 24시 형식
+  var _dragging = null; // "hour" | "minute"
   var _clockRect = null;
   var _clockCenter = { x: 0, y: 0 };
   var _clockRadius = 100;
@@ -34,16 +39,32 @@
   }
 
   function setHands() {
-    var hDeg = (_hour % 12) * 30 + _minute * 0.5 + _second / 120;
-    var mDeg = _minute * 6 + _second * 0.1;
-    var sDeg = _second * 6;
+    var hDeg = (_hour % 12) * 30 + _minute * 0.5;
+    var mDeg = _minute * 6;
     handHour.style.transform = "translateX(-50%) rotate(" + hDeg + "deg)";
     handMinute.style.transform = "translateX(-50%) rotate(" + mDeg + "deg)";
-    handSecond.style.transform = "translateX(-50%) rotate(" + sDeg + "deg)";
   }
 
   function updateDisplay() {
-    displayEl.textContent = pad2(_hour) + ":" + pad2(_minute) + ":" + pad2(_second);
+    if (_use24h) {
+      displayEl.textContent = pad2(_hour) + ":" + pad2(_minute);
+    } else {
+      var h12 = _hour % 12;
+      if (h12 === 0) h12 = 12;
+      var ampm = _hour < 12 ? "오전" : "오후";
+      displayEl.textContent = ampm + " " + h12 + ":" + pad2(_minute);
+    }
+  }
+
+  function updateModeButtons() {
+    if (btnModeHour) btnModeHour.classList.toggle("active", _mode === "hour");
+    if (btnModeMinute) btnModeMinute.classList.toggle("active", _mode === "minute");
+  }
+
+  function updateAmPmButtons() {
+    if (btnAM) btnAM.classList.toggle("active", _hour < 12);
+    if (btnPM) btnPM.classList.toggle("active", _hour >= 12);
+    if (btn24) btn24.classList.toggle("active", _use24h);
   }
 
   function angleFromCenter(clientX, clientY) {
@@ -60,12 +81,6 @@
     return Math.sqrt(x * x + y * y);
   }
 
-  function whichHand(normalizedDist) {
-    if (normalizedDist < 0.35) return "hour";
-    if (normalizedDist < 0.75) return "minute";
-    return "second";
-  }
-
   function applyAngle(deg, hand) {
     if (hand === "hour") {
       var h12 = Math.round(deg / 30) % 12;
@@ -80,9 +95,6 @@
     } else if (hand === "minute") {
       _minute = Math.round(deg / 6) % 60;
       if (_minute < 0) _minute += 60;
-    } else {
-      _second = Math.round(deg / 6) % 60;
-      if (_second < 0) _second += 60;
     }
   }
 
@@ -92,10 +104,11 @@
     var p = parseInputValue(val);
     _hour = p.h;
     _minute = p.m;
-    _second = p.s;
     titleEl.textContent = inputEl.id === "start-time-input" ? "시작 시간" : "종료 시간";
     setHands();
     updateDisplay();
+    updateModeButtons();
+    updateAmPmButtons();
     overlay.classList.remove("hidden");
     _clockRect = face.getBoundingClientRect();
     _clockCenter.x = _clockRect.left + _clockRect.width / 2;
@@ -123,15 +136,14 @@
     _clockCenter.x = _clockRect.left + _clockRect.width / 2;
     _clockCenter.y = _clockRect.top + _clockRect.height / 2;
     _clockRadius = _clockRect.width / 2;
+    _dragging = _mode;
     var clientX = e.touches ? e.touches[0].clientX : e.clientX;
     var clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    var dist = distanceFromCenter(clientX, clientY);
-    var norm = dist / _clockRadius;
-    _dragging = whichHand(norm);
     var deg = angleFromCenter(clientX, clientY);
     applyAngle(deg, _dragging);
     setHands();
     updateDisplay();
+    updateAmPmButtons();
   }
 
   function onPointerMove(e) {
@@ -143,6 +155,7 @@
     applyAngle(deg, _dragging);
     setHands();
     updateDisplay();
+    updateAmPmButtons();
   }
 
   function onPointerUp() {
@@ -161,6 +174,32 @@
   if (applyBtn) applyBtn.addEventListener("click", applyTime);
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closePicker();
+  });
+
+  if (btnModeHour) btnModeHour.addEventListener("click", function () {
+    _mode = "hour";
+    updateModeButtons();
+  });
+  if (btnModeMinute) btnModeMinute.addEventListener("click", function () {
+    _mode = "minute";
+    updateModeButtons();
+  });
+  if (btnAM) btnAM.addEventListener("click", function () {
+    if (_hour >= 12) _hour -= 12;
+    setHands();
+    updateDisplay();
+    updateAmPmButtons();
+  });
+  if (btnPM) btnPM.addEventListener("click", function () {
+    if (_hour < 12) _hour += 12;
+    setHands();
+    updateDisplay();
+    updateAmPmButtons();
+  });
+  if (btn24) btn24.addEventListener("click", function () {
+    _use24h = !_use24h;
+    updateDisplay();
+    updateAmPmButtons();
   });
 
   for (var i = 1; i <= 12; i++) {

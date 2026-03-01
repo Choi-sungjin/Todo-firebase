@@ -1215,6 +1215,36 @@ textarea {
   color: var(--text-primary);
   margin: 0;
 }
+.time-picker-mode-row,
+.time-picker-ampm-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.time-picker-mode-btn,
+.time-picker-ampm-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--separator);
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.time-picker-mode-btn:hover,
+.time-picker-ampm-btn:hover {
+  background: var(--fill);
+  color: var(--text-primary);
+}
+.time-picker-mode-btn.active,
+.time-picker-ampm-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
 .clock-wrap {
   padding: 8px;
 }
@@ -1265,14 +1295,6 @@ textarea {
   background: var(--primary);
   border-radius: 2px;
   z-index: 2;
-}
-.clock-hand-second {
-  width: 2px;
-  height: 70px;
-  margin-left: -1px;
-  background: var(--danger, #dc2626);
-  border-radius: 1px;
-  z-index: 1;
 }
 .time-picker-display {
   font-size: 20px;
