@@ -701,7 +701,7 @@ body {
   border: 1px dashed var(--separator);
 }
 .gantt-empty::before {
-  content: "📅";
+  content: "🗂️";
   display: block;
   font-size: 36px;
   margin-bottom: 12px;
@@ -1472,16 +1472,32 @@ textarea {
   color: #e57373;
 }
 
-/* ── Premium Service UI Overrides (Cinematic) ── */
+/* ── Premium Service UI Overrides (Theme-Aware) ── */
 :root {
-  --canvas-top: #16171d;
-  --canvas-mid: #0f1014;
-  --canvas-bottom: #090a0d;
-  --surface-1: rgba(255, 255, 255, 0.06);
-  --surface-2: rgba(255, 255, 255, 0.1);
-  --border-soft: rgba(255, 255, 255, 0.14);
-  --glow-accent: rgba(229, 9, 20, 0.24);
   --hero-accent: #e50914;
+  --premium-text: #161a23;
+  --premium-text-muted: #4a5568;
+  --premium-header: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 64%, rgba(255, 255, 255, 0) 100%);
+  --premium-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 250, 255, 0.9) 100%);
+  --premium-surface-soft: rgba(255, 255, 255, 0.76);
+  --premium-border: rgba(31, 42, 68, 0.14);
+  --premium-bg:
+    radial-gradient(900px 480px at 88% -12%, rgba(229, 9, 20, 0.12), transparent 62%),
+    radial-gradient(760px 420px at 5% -8%, rgba(37, 99, 235, 0.1), transparent 58%),
+    linear-gradient(180deg, #f4f7ff 0%, #eef2fb 48%, #e7ecf8 100%);
+}
+
+[data-theme="dark"] {
+  --premium-text: #f5f7fb;
+  --premium-text-muted: #c8d1e3;
+  --premium-header: linear-gradient(180deg, rgba(5, 6, 8, 0.84) 0%, rgba(5, 6, 8, 0.52) 64%, rgba(5, 6, 8, 0) 100%);
+  --premium-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+  --premium-surface-soft: rgba(255, 255, 255, 0.06);
+  --premium-border: rgba(255, 255, 255, 0.18);
+  --premium-bg:
+    radial-gradient(1000px 540px at 85% -10%, rgba(229, 9, 20, 0.16), transparent 62%),
+    radial-gradient(700px 380px at 8% -8%, rgba(71, 106, 255, 0.14), transparent 58%),
+    linear-gradient(180deg, #181a21 0%, #101219 48%, #0a0b10 100%);
 }
 
 html,
@@ -1491,16 +1507,13 @@ body {
 }
 
 body {
-  background:
-    radial-gradient(1000px 540px at 85% -10%, rgba(229, 9, 20, 0.16), transparent 62%),
-    radial-gradient(700px 380px at 8% -8%, rgba(71, 106, 255, 0.14), transparent 58%),
-    linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 45%, var(--canvas-bottom) 100%);
-  color: #f5f7fb;
+  background: var(--premium-bg);
+  color: var(--premium-text);
 }
 
 .header {
   padding: 18px 20px 6px;
-  background: linear-gradient(180deg, rgba(5, 6, 8, 0.82) 0%, rgba(5, 6, 8, 0.5) 60%, rgba(5, 6, 8, 0) 100%);
+  background: var(--premium-header);
   border-bottom: none;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -1520,24 +1533,24 @@ body {
 }
 
 .header-date {
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--premium-text-muted);
   font-size: 12px;
 }
 
 .header-title {
-  color: #f8f9ff;
+  color: var(--premium-text);
   font-size: 30px;
   letter-spacing: -0.04em;
 }
 
 .theme-toggle {
-  border: 1px solid var(--border-soft);
-  background: var(--surface-1);
-  color: #f2f3f6;
+  border: 1px solid var(--premium-border);
+  background: var(--premium-surface-soft);
+  color: var(--premium-text);
 }
 
 .theme-toggle:hover {
-  background: var(--surface-2);
+  background: var(--premium-surface);
 }
 
 .add-fab {
@@ -1545,22 +1558,22 @@ body {
   height: 44px;
   border-radius: 12px;
   background: linear-gradient(120deg, #ff3d45 0%, var(--hero-accent) 80%);
-  box-shadow: 0 10px 28px var(--glow-accent);
+  box-shadow: 0 10px 28px rgba(229, 9, 20, 0.24);
 }
 
 .tab-group {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--premium-border);
 }
 
 .tab {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--premium-text-muted);
   font-size: 14px;
   font-weight: 600;
   padding: 14px 10px;
 }
 
 .tab.active {
-  color: #ffffff;
+  color: var(--premium-text);
   border-bottom-color: var(--hero-accent);
 }
 
@@ -1577,75 +1590,96 @@ body {
 .todo-card {
   margin-bottom: 0;
   min-height: 120px;
-  border: 1px solid var(--border-soft);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--premium-border);
+  background: var(--premium-surface);
+  box-shadow: 0 14px 34px rgba(13, 20, 36, 0.18);
   transition: transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 160ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 160ms ease;
 }
 
 .todo-card:hover {
   transform: translateY(-2px) scale(1.02);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.38);
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 22px 44px rgba(13, 20, 36, 0.28);
 }
 
 .todo-title {
-  color: #f8f8fc;
+  color: var(--premium-text);
   font-size: 17px;
 }
 
 .todo-date,
 .todo-memo-preview,
-.todo-detail {
-  color: rgba(232, 236, 248, 0.7);
+.todo-detail,
+.todo-detail-label {
+  color: var(--premium-text-muted);
+}
+
+.todo-date {
+  font-size: 14px;
 }
 
 .todo-actions button {
-  color: rgba(255, 255, 255, 0.74);
+  color: var(--premium-text-muted);
+  font-size: 18px;
 }
 
 .todo-actions button:hover {
-  background: rgba(255, 255, 255, 0.11);
-  color: #fff;
+  background: var(--premium-surface-soft);
+  color: var(--premium-text);
 }
 
 .schedule-section {
   margin-top: 8px;
-  background: linear-gradient(180deg, rgba(17, 18, 24, 0.94) 0%, rgba(11, 12, 16, 0.96) 100%);
-  border: 1px solid var(--border-soft);
-  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.34);
+  background: var(--premium-surface);
+  border: 1px solid var(--premium-border);
+  box-shadow: 0 22px 44px rgba(13, 20, 36, 0.24);
 }
 
 .schedule-title {
-  color: #f3f4fa;
+  color: var(--premium-text);
+  font-size: 18px;
+}
+.schedule-title::before {
+  height: 20px;
 }
 
 .gantt-wrap {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--premium-surface-soft);
+  border-color: var(--premium-border);
 }
 
 .gantt-row:nth-child(even) {
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(148, 163, 184, 0.08);
 }
 
 .gantt-row:hover {
-  background: rgba(255, 255, 255, 0.065);
+  background: rgba(148, 163, 184, 0.14);
 }
 
 .empty-state {
   padding: 80px 24px;
-  color: rgba(228, 233, 246, 0.8);
+  color: var(--premium-text-muted);
 }
 
 .empty-state p:first-child {
-  font-size: 42px;
+  font-size: 56px;
+  line-height: 1.2;
 }
 
-.modal {
-  background: linear-gradient(180deg, #161821 0%, #111319 100%);
-  color: #f4f6ff;
-  border-color: rgba(255, 255, 255, 0.16);
+.template-suggestion span:first-of-type {
+  font-size: 18px;
+}
+
+.subtask-suggestion label {
+  font-size: 15px;
+}
+
+.modal,
+.date-choice-popup,
+.time-picker-popup {
+  background: var(--premium-surface);
+  color: var(--premium-text);
+  border-color: var(--premium-border);
 }
 
 #todo-input,
@@ -1653,14 +1687,14 @@ input[type="date"],
 input[type="time"],
 select,
 textarea {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #f4f6ff;
+  background: var(--premium-surface-soft);
+  border: 1px solid var(--premium-border);
+  color: var(--premium-text);
 }
 
 #todo-input::placeholder,
 textarea::placeholder {
-  color: rgba(236, 239, 251, 0.5);
+  color: color-mix(in srgb, var(--premium-text-muted) 72%, transparent);
 }
 
 input[type="text"]:focus,
@@ -1668,14 +1702,37 @@ select:focus,
 textarea:focus,
 input[type="date"]:focus,
 input[type="time"]:focus {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.34);
+  background: color-mix(in srgb, var(--premium-surface-soft) 86%, white 14%);
+  border-color: color-mix(in srgb, var(--hero-accent) 45%, var(--premium-border) 55%);
 }
 
-.date-choice-popup,
-.time-picker-popup {
-  background: linear-gradient(180deg, #161821 0%, #111319 100%);
-  border-color: rgba(255, 255, 255, 0.16);
+.month-nav {
+  background: var(--premium-surface-soft);
+  border-color: var(--premium-border);
+}
+
+.month-nav button {
+  background: transparent;
+  color: var(--premium-text-muted);
+  border: 1px solid transparent;
+}
+
+.month-nav button:hover {
+  background: color-mix(in srgb, var(--hero-accent) 16%, transparent);
+  color: var(--premium-text);
+}
+
+.chart-tooltip {
+  background: var(--premium-surface);
+  color: var(--premium-text);
+  border-color: var(--premium-border);
+}
+
+.gantt-empty::before {
+  content: "🗂️";
+  font-size: 52px;
+  display: block;
+  margin-bottom: 12px;
 }
 
 @media (max-width: 960px) {

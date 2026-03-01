@@ -495,7 +495,7 @@ function renderTodos(todosObj) {
     var memoPreview = memo ? '<div class="todo-memo-preview">' + memo + '</div>' : '';
     var isDone = todo.status === "done";
     var doneClass = isDone ? "todo-done-toggle checked" : "todo-done-toggle";
-    var timeMeta = timeLabel ? '<span class="todo-date">🕐 ' + timeLabel + '</span>' : "";
+    var timeMeta = timeLabel ? '<span class="todo-date">⏱️ ' + timeLabel + '</span>' : "";
     return (
       '<div class="todo-card priority-' + (todo.priority || "medium") + '" data-id="' + id + '">' +
         '<div class="todo-body">' +
@@ -504,17 +504,17 @@ function renderTodos(todosObj) {
           '<div class="todo-title ' + (isDone ? "done" : "") + '">' + (todo.title || "").replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</div>' +
           '<div class="todo-meta">' +
             (todo.category ? '<span class="badge ' + todo.category + '">' + (todo.category || "").replace(/</g, "&lt;") + '</span>' : "") +
-            (todo.deadline ? '<span class="todo-date">📅 ' + (todo.deadline || "").replace(/</g, "&lt;") + '</span>' : "") +
+            (todo.deadline ? '<span class="todo-date">🗓️ ' + (todo.deadline || "").replace(/</g, "&lt;") + '</span>' : "") +
             (timeMeta ? timeMeta : "") +
-            (todo.subtasks && todo.subtasks.length ? '<span class="todo-date">📌 ' + todo.subtasks.length + '개 작업</span>' : "") +
+            (todo.subtasks && todo.subtasks.length ? '<span class="todo-date">🧩 ' + todo.subtasks.length + '개 작업</span>' : "") +
           "</div>" +
           memoPreview +
           detailHtml +
           "</div>" +
         "</div>" +
         '<div class="todo-actions">' +
-          '<button class="todo-btn-edit" onclick="event.stopPropagation(); window.openModalForEdit(\'' + id + '\');" title="수정">✏️</button>' +
-          '<button class="todo-btn-delete" onclick="event.stopPropagation(); window.confirmDelete(\'' + id + '\');" title="삭제">🗑</button>' +
+          '<button class="todo-btn-edit" onclick="event.stopPropagation(); window.openModalForEdit(\'' + id + '\');" title="수정">🛠️</button>' +
+          '<button class="todo-btn-delete" onclick="event.stopPropagation(); window.confirmDelete(\'' + id + '\');" title="삭제">🧹</button>' +
         "</div>" +
       "</div>"
     );
