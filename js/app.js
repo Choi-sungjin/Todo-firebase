@@ -99,19 +99,25 @@ document.getElementById("close-modal").addEventListener("click", closeModal);
 })();
 
 function openModal() {
+  openModalWithDate(getLocalDateStr(today));
+}
+
+/** 전체일정에서 날짜 클릭 시 해당 날짜로 새 할일 등록용 */
+function openModalWithDate(dateStr) {
   editingTodoId = null;
   document.getElementById("modal-title").textContent = "새 할일";
   document.getElementById("add-btn").textContent = "추가하기";
   document.getElementById("modal-overlay").classList.remove("hidden");
-  const todayStr = getLocalDateStr(today);
   const startEl = document.getElementById("start-date-input");
   const deadlineEl = document.getElementById("deadline-input");
-  if (startEl) startEl.value = todayStr;
-  if (deadlineEl) deadlineEl.value = todayStr;
+  if (startEl) startEl.value = dateStr || getLocalDateStr(today);
+  if (deadlineEl) deadlineEl.value = dateStr || getLocalDateStr(today);
+  resetForm();
   setTimeout(function () {
     document.getElementById("todo-input").focus();
   }, 300);
 }
+window.openModalWithDate = openModalWithDate;
 
 function openModalForEdit(id) {
   var todo = getTodosArray().find(function (t) { return t.id === id; });

@@ -56,17 +56,18 @@ body {
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 16px;
+  gap: 12px;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.header-title-wrap {
+  flex: 1;
+  min-width: 0;
 }
 
 .theme-toggle {
   width: 36px;
   height: 36px;
+  flex-shrink: 0;
   border-radius: 50%;
   border: none;
   background: var(--fill);
@@ -580,6 +581,21 @@ body {
 .gantt-day-label.gantt-day-sun .gantt-day-wd { color: #dc2626; font-weight: 800; }
 .gantt-day-label.gantt-day-sat .gantt-day-num { color: #5b21b6; }
 .gantt-day-label.gantt-day-sat .gantt-day-wd { color: #7c3aed; font-weight: 700; }
+
+.gantt-day-clickable {
+  cursor: pointer;
+}
+.gantt-day-clickable:hover {
+  background: rgba(59, 130, 246, 0.15) !important;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+.gantt-cell-clickable {
+  cursor: pointer;
+}
+.gantt-cell-clickable:hover {
+  background: rgba(59, 130, 246, 0.12) !important;
+}
 
 .gantt-body {
   display: flex;

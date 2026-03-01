@@ -9,6 +9,18 @@ function initSchedule() {
   updateMonthLabel();
   renderChart();
 
+  const chartEl = document.getElementById("schedule-chart");
+  if (chartEl) {
+    chartEl.addEventListener("click", function (e) {
+      if (e.target.closest(".gantt-bar")) return;
+      const cell = e.target.closest(".gantt-day-clickable, .gantt-cell-clickable");
+      if (!cell || !cell.dataset.date) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof window.openModalWithDate === "function") window.openModalWithDate(cell.dataset.date);
+    });
+  }
+
   document.getElementById("prev-month").addEventListener("click", () => {
     _chartMonth--;
     if (_chartMonth < 0) {
@@ -82,16 +94,18 @@ function renderChart() {
   };
 
   const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
+  const pad2 = (n) => String(n).padStart(2, "0");
+  const toDateStr = (day) => `${_chartYear}-${pad2(_chartMonth + 1)}-${pad2(day)}`;
   const dateLabels = Array.from({ length: daysInMonth }, (_, i) => {
     const day = i + 1;
     const date = new Date(_chartYear, _chartMonth, day);
     const isToday = date.toDateString() === today.toDateString();
     const dow = date.getDay();
-    let cls = "gantt-day-label";
+    let cls = "gantt-day-label gantt-day-clickable";
     if (isToday) cls += " gantt-day-today";
     else if (dow === 0) cls += " gantt-day-sun";
     else if (dow === 6) cls += " gantt-day-sat";
-    return `<div class="${cls}" data-dow="${dow}"><span class="gantt-day-num">${day}</span><span class="gantt-day-wd">${weekDays[dow]}</span></div>`;
+    return `<div class="${cls}" data-dow="${dow}" data-date="${toDateStr(day)}" title="이 날짜에 할일 추가"><span class="gantt-day-num">${day}</span><span class="gantt-day-wd">${weekDays[dow]}</span></div>`;
   }).join("");
 
   const rowHtml = rows
@@ -108,11 +122,11 @@ function renderChart() {
         const date = new Date(_chartYear, _chartMonth, day);
         const isToday = date.toDateString() === today.toDateString();
         const dow = date.getDay();
-        let cellCls = "gantt-cell";
+        let cellCls = "gantt-cell gantt-cell-clickable";
         if (isToday) cellCls += " gantt-cell-today";
         if (dow === 0) cellCls += " gantt-cell-sun";
         if (dow === 6) cellCls += " gantt-cell-sat";
-        return `<div class="${cellCls}"></div>`;
+        return `<div class="${cellCls}" data-date="${toDateStr(day)}" title="이 날짜에 할일 추가"></div>`;
       }).join("");
       return `
         <div class="gantt-row ${isActive ? "gantt-row-active" : ""}" data-id="${r.todo.id || ""}" onclick="window._focusTodoFromGantt('${todoId}')">
